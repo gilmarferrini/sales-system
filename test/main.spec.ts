@@ -9,7 +9,7 @@ describe('validate', () => {
     '062.819.790-01'
   ]
 
-  it.each(validCpfs)('Should return true if cpf is valid', (cpf) => {
+  it.each(validCpfs)('Should return true if cpf is valid: %s', (cpf) => {
     expect(validate(cpf)).toBeTruthy()
   })
 })
