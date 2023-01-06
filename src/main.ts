@@ -16,10 +16,7 @@ export function validate (rawCpf) {
   let firstCheckDigit = (rest < 2) ? 0 : 11 - rest;
   calculatedLastDigit += 2 * firstCheckDigit;
   rest = (calculatedLastDigit % 11);
-  if (rest < 2)
-      lastCheckDigit = 0;
-  else
-      lastCheckDigit = 11 - rest;
+  lastCheckDigit = (rest < 2) ? 0 : 11 - rest;
   let originalCheckDigits = cleanCpf.substring(cleanCpf.length - 2, cleanCpf.length);
   return originalCheckDigits === `${firstCheckDigit}${lastCheckDigit}`;
 }
