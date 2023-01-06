@@ -1,34 +1,31 @@
 // @ts-nocheck
-export function validate (str) {
-  if (!str) { return false }
-  if (str.length >= 11 && str.length <= 14){
-      str=str
+export function validate (rawCpf) {
+  if (!rawCpf) { return false }
+  if (rawCpf.length >= 11 && rawCpf.length <= 14){
+      const cleanCpf = rawCpf
           .replace('.','')
           .replace('.','')
           .replace('-','')
           .replace(" ","");
-      if (!str.split("").every(c => c === str[0])) {
-        let d1 = 0;
-        let d2 = 0;
-        let dg2 = 0;
-        let digito = 0;
-        let nDigResult = 0;
-        for (let nCount = 1; nCount < str.length -1; nCount++) {
-          digito = parseInt(str.substring(nCount -1, nCount));
-          d1 = d1 + ( 11 - nCount ) * digito;
-          d2 = d2 + ( 12 - nCount ) * digito;
+      if (!cleanCpf.split("").every(c => c === cleanCpf[0])) {
+        let calculatedFirstDigit = 0;
+        let calculatedLastDigit = 0;
+        let lastCheckDigit = 0;
+        for (let currentCharacterIndex = 1; currentCharacterIndex < cleanCpf.length -1; currentCharacterIndex++) {
+          let digit = parseInt(cleanCpf.substring(currentCharacterIndex - 1, currentCharacterIndex));
+          calculatedFirstDigit = calculatedFirstDigit + ( 11 - currentCharacterIndex ) * digit;
+          calculatedLastDigit = calculatedLastDigit + ( 12 - currentCharacterIndex ) * digit;
         };
-        let rest = (d1 % 11);
-        let dg1 = (rest < 2) ? 0 : 11 - rest;
-        d2 += 2 * dg1;
-        rest = (d2 % 11);
+        let rest = (calculatedFirstDigit % 11);
+        let firstCheckDigit = (rest < 2) ? 0 : 11 - rest;
+        calculatedLastDigit += 2 * firstCheckDigit;
+        rest = (calculatedLastDigit % 11);
         if (rest < 2)
-            dg2 = 0;
+            lastCheckDigit = 0;
         else
-            dg2 = 11 - rest;
-        let nDigVerific = str.substring(str.length-2, str.length);
-        nDigResult = "" + dg1 + "" + dg2;
-        return nDigVerific == nDigResult;
+            lastCheckDigit = 11 - rest;
+        let originalCheckDigits = cleanCpf.substring(cleanCpf.length - 2, cleanCpf.length);
+        return originalCheckDigits === `${firstCheckDigit}${lastCheckDigit}`;
       } else return false
   }else return false;
 }
