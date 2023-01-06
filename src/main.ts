@@ -1,5 +1,4 @@
-// @ts-nocheck
-export function validate (rawCpf) {
+export function validate (rawCpf: string): boolean {
   if (!rawCpf) { return false; }
   if (!cpfLengthIsValid(rawCpf)) { return false; }
   const cleanCpf = normalizeCpf(rawCpf)
@@ -21,15 +20,15 @@ export function validate (rawCpf) {
   return originalCheckDigits === `${firstCheckDigit}${lastCheckDigit}`;
 }
 
-function cpfLengthIsValid(cpf) {
+function cpfLengthIsValid(cpf: string) {
   return cpf.length >= 11 && cpf.length <= 14;
 }
 
-function normalizeCpf(cpf) {
+function normalizeCpf(cpf: string) {
   return cpf.replace('.','').replace('.','').replace('-','').replace(" ","");
 }
 
-function allDigitsAreSame(cpf) {
+function allDigitsAreSame(cpf: string) {
   const firstDigit = cpf[0];
-  return cpf.split("").every(digit => digit === firstDigit)
+  return cpf.split("").every((digit: string) => digit === firstDigit)
 }

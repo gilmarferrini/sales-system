@@ -23,8 +23,7 @@ describe('validate', () => {
     '561.803.980-37',
     '071.159.720-40',
     '061.819.790-01',
-    null,
-    undefined
+    ''
   ]
 
   it.each(validCpfs)('Should return true if cpf is valid: %s', (cpf) => {
